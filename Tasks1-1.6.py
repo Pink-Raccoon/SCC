@@ -163,7 +163,7 @@ g1 = 0.5
 g2 = 0.8
 g3 = 0.008
 g4 = 0.0005
-t_eval = np.arange(0,200,0.001)
+t_eval = np.arange(0,200,0.0000001)
 
 def f7(t,y):
     return np.array([g1*y[0]-g3*y[0]*y[1]-g4*y[0]**2, -g2*y[1]+g3*y[0]*y[1]])
