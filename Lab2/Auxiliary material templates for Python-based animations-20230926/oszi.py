@@ -52,3 +52,4 @@ def run(data):
 ani = animation.FuncAnimation(fig, run, data_gen, interval=1, init_func=init)
 
 fig.show()
+plt.show()

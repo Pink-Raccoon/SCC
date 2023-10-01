@@ -105,3 +105,4 @@ ani = animation.FuncAnimation(
     fig, animate, len(y), interval=dt*1000, blit=True)
 
 fig.show()
+plt.show()

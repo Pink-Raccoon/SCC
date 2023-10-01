@@ -62,16 +62,12 @@ def update(frame):
     cs, s1, s2, s3, s4 = list_points[frame]
     square = np.stack([s1,s2,s3,s4,s1])
     x_data,y_data = square[:,0],square[:,1]
-    x,y = rotate_around_point([x_data,y_data,1])
     ln1.set_data(x_data,y_data)
     ln2.set_data(cs[0], cs[1])
 
     return ln1, ln2,
 
-def rotate_around_point(pOld,a,b,phi):
-    rotMatr = np.array([[np.cos(phi),-np.sin(phi),0],[np.sin(phi),np.cos(phi),0],[0,0,1]])
-    rotPointMatr = np.array([1,0,-a],[0,1,-b],[0,0,1])
-    return (rotPointMatr @ rotMatr) @ pOld
+
     
 ani = FuncAnimation(fig, update, frames=n, init_func=init, interval=25)
 fig.show()

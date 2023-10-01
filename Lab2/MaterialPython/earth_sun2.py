@@ -12,7 +12,7 @@ from matplotlib.animation import FuncAnimation
 # Initialize the coordinates of the Earth and the Sun
 ce = np.array([5.0, 0.0, 1.0])  # Start coordinates of Earth
 sun = np.array([0, 0, 1])       # Coordinates of the Sun
-
+cs = np.array([5.0, 0.0, 1.0])
 # Parameters for the animation
 n_per_day = 1
 n_days = 365
@@ -38,7 +38,8 @@ ax.axis([-10,10,-10,10])
 
 # Initialize the plot elements for the Sun and Earth (square)
 sun_plot, = ax.plot([], [], '*b',)
-ln, = ax.plot([], [], 'r', linewidth=2)
+ln, = ax.plot([], [], 'r')
+center_dot, = ax.plot([], [], '.k')
 
 # Function to rotate a point around another point
 def rotate_around_point(pOld, a, b, phi):
@@ -51,6 +52,10 @@ def rotate_around_point(pOld, a, b, phi):
     result = M @ pOld
     return result
 
+def rotate_tuple(pList,a,b,phi):
+    pRotated=[]
+    
+
 # Initialize a list to store Earth's positions during the animation
 ce_list = [ce]
 
@@ -62,15 +67,17 @@ for i in range(n):
 # Function to initialize the animation
 def init():
     sun_plot.set_data(sun[0], sun[1])
-    return sun_plot, ln
+    center_dot.set_data(cs[0], cs[1])  # Initialize the center dot at the Earth's center
+    return sun_plot, ln, center_dot
 
 # Function to update the animation frame
 def update(frame):
     ce_frame = ce_list[frame]
     # Apply rotation to each vertex of the Earth's square separately
     ln.set_data(ce_frame[0] + earth_vertices[:, 0],
-                         ce_frame[1] + earth_vertices[:, 1])
-    return sun_plot,ln
+                ce_frame[1] + earth_vertices[:, 1])
+    center_dot.set_data(ce_frame[0], ce_frame[1])
+    return sun_plot, ln, center_dot
 
 # Create the animation
 ani = FuncAnimation(fig, update, frames=n, init_func=init, interval=10, blit=True)
