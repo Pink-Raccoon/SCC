@@ -62,8 +62,8 @@ moonCorner_list.append(np.stack([c1,c2,c3,c4]))
 
 for i in range(n):    
     ce = am.rotate_around_point(ce,sun[0],sun[1],earth_around_sun)
-    cr = am.rotate_tuple(cr_list[i][0:], ce[0],ce[1], earth_around_axis)  
     moon = am.rotate_around_point(moon,ce[0],ce[1], -moon_around_earth)  
+    cr = am.rotate_tuple(cr_list[i][0:], ce[0],ce[1], earth_around_axis)  
     moonCorner = am.rotate_tuple(moonCorner_list[i][0:],moon[0],moon[1],moon_around_axis)     
     cr_list.append(cr) 
     moonCorner_list.append(moonCorner) 
@@ -77,39 +77,40 @@ earth_dot, = plt.plot([], [], '.r')
 earth_plot, = plt.plot([],[],'r')
 moon_dot, = plt.plot([],[],'.k')
 moon_plot,= plt.plot([],[],'k')
-
+# New variable to track the Moon's rotation angle
+moon_rotation_angle = 0.0
 
 def init():
-    ax.axis([-10,10,-10,10])
+    ax.axis([-10, 10, -10, 10])
     ax.set_aspect('equal', 'box')
-  
-    return earth_dot, earth_plot, moon_dot, moon_plot,
-
+    return earth_dot, earth_plot, moon_dot, moon_plot
 
 def update(frame):
+    global moon_rotation_angle  # Declare the variable as global to update it
     ce_frame = ce_list[frame]
     cr_frame = cr_list[frame]
     moon_frame = moon_list[frame]
-    moonCorner_frame = moonCorner_list[frame]
-
-
-
-    x = np.stack([cr_frame[0][0],cr_frame[1][0],cr_frame[2][0],cr_frame[3][0],cr_frame[0][0]])
-    y = np.stack([cr_list[frame][0][1],cr_frame[1][1],cr_frame[2][1],cr_frame[3][1],cr_frame[0][1]])
-
-    x_moon = np.stack([moonCorner_frame[0][0],moonCorner_frame[1][0],moonCorner_frame[2][0],moonCorner_frame[3][0],moonCorner_frame[0][0]])
-    y_moon = np.stack([moonCorner_frame[0][1],moonCorner_frame[1][1],moonCorner_frame[2][1],moonCorner_frame[3][1],moonCorner_frame[0][1]])
     
-    moon_dot.set_data(moon_frame[0],moon_frame[1])
-    earth_dot.set_data(ce_frame[0],ce_frame[1])
-    moon_plot.set_data(x_moon,y_moon)    
-    earth_plot.set_data(x,y)
+    # Update the Moon's position in its orbit around the Earth
+    ce_frame = am.rotate_around_point(ce_frame, sun[0], sun[1], earth_around_sun)
     
+    # Update the Moon's rotation around its own axis
+    moon_rotation_angle += moon_around_axis * (1 / 60)  # Update based on frame rate
     
-   
-
-    return earth_dot, earth_plot,moon_dot,moon_plot,
-
+    # Calculate the rotation matrix for the Moon's rotation
+    rotation_matrix = np.array([[np.cos(moon_rotation_angle), -np.sin(moon_rotation_angle)],
+                                [np.sin(moon_rotation_angle), np.cos(moon_rotation_angle)]])
+    
+    # Apply the rotation matrix to the Moon's position
+    moon_frame[0:2] = np.dot(rotation_matrix, moon_frame[0:2])
+    
+    earth_dot.set_data(ce_frame[0], ce_frame[1])
+    x = np.stack([cr_frame[0][0], cr_frame[1][0], cr_frame[2][0], cr_frame[3][0], cr_frame[0][0]])
+    y = np.stack([cr_frame[0][1], cr_frame[1][1], cr_frame[2][1], cr_frame[3][1], cr_frame[0][1]])
+    earth_plot.set_data(x, y)
+    moon_dot.set_data(moon_frame[0], moon_frame[1])
+    
+    return earth_dot, earth_plot, moon_dot
 
 ani = FuncAnimation(fig, update, frames=n, init_func=init, interval=10)
 fig.show()
