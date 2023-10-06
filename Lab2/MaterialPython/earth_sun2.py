@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-import augmentedmethods as am
+import auxiliary_methods as am
 
 ce = [5.0, 0.0]  # start coordinates of earth
 sun = [0.0, 0.0]  # coordinates of the sun

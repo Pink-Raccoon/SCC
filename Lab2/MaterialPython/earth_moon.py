@@ -8,19 +8,19 @@ Created on Mon Sep 27 14:40:47 2021
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-import augmentedmethods as am
+import auxiliary_methods as am
 
 ce =      [0.0,5.0]                             # start coordinates of earth
 sun =     [0.0,0.0]                              # coordinates of the sun
-moon =    [0.0,9.0]
+cm =    [0.0,9.0]
 
 n_per_day =  1
 n_days =  365
 n = n_days*n_per_day                           # number of iterations
 earth_around_sun =  2*np.pi / n_days / n_per_day  # angular velocity earth - sun
 earth_around_axis = 1
-moon_around_earth = 2 * np.pi / (n/12) 
-moon_around_axis = 2 * np.pi /(n/12)
+moon_around_earth = 2 * np.pi / 27.3
+moon_around_axis = 27.3
 
 side_len = 1.0
 side_moon = 0.6
@@ -34,14 +34,14 @@ s2 = ce + tHori - tVerti
 s3 = ce + tHori + tVerti
 s4 = ce - tHori + tVerti
 
-c1 = moon - mHori - mVerti
-c2 = moon + mHori - mVerti
-c3 = moon + mHori + mVerti
-c4 = moon - mHori + mVerti
+c1 = cm - mHori - mVerti
+c2 = cm + mHori - mVerti
+c3 = cm + mHori + mVerti
+c4 = cm - mHori + mVerti
 
 ce = np.append(ce,1)
 sun = np.append(sun,1)
-moon = np.append(moon,1)
+cm = np.append(cm,1)
 s1 = np.append(s1,1) 
 s2 = np.append(s2,1)
 s3 = np.append(s3,1) 
@@ -53,22 +53,24 @@ c3 = np.append(c3,1)
 c4 = np.append(c4,1)
 
 ce_list = [ce]
-cr_list = []
-cr_list.append(np.stack([s1,s2,s3,s4]))
-moon_list = [moon]
-moonCorner_list = []
-moonCorner_list.append(np.stack([c1,c2,c3,c4]))
+earthRotation_list = []
+earthRotation_list.append(np.stack([s1,s2,s3,s4]))
+cm_list = [cm]
+moonRotation_list = []
+moonRotation_list.append(np.stack([c1,c2,c3,c4]))
 
 
 for i in range(n):    
     ce = am.rotate_around_point(ce,sun[0],sun[1],earth_around_sun)
-    cr = am.rotate_tuple(cr_list[i][0:], ce[0],ce[1], earth_around_axis)  
-    moon = am.rotate_around_point(moon,ce[0],ce[1], -moon_around_earth)  
-    moonCorner = am.rotate_tuple(moonCorner_list[i][0:],moon[0],moon[1],moon_around_axis)     
-    cr_list.append(cr) 
-    moonCorner_list.append(moonCorner) 
-    moon_list.append(moon) 
-    ce_list.append(ce) # generate coordinates
+    earthRotation = am.rotate_tuple(earthRotation_list[i][0:], ce[0],ce[1], earth_around_axis)  
+    cm = am.rotate_around_point(cm,ce[0],ce[1], -moon_around_earth)  
+    moonRotation = am.rotate_tuple(moonRotation_list[i][0:],cm[0],cm[1],27.3) 
+    ce_list.append(ce)
+
+    earthRotation_list.append(np.stack(earthRotation) )    
+    cm_list.append(cm) 
+    moonRotation_list.append(np.stack(moonRotation) )
+     # generate coordinates
 
 # Initialize the figure and axis
 fig, ax = plt.subplots()
@@ -88,14 +90,14 @@ def init():
 
 def update(frame):
     ce_frame = ce_list[frame]
-    cr_frame = cr_list[frame]
-    moon_frame = moon_list[frame]
-    moonCorner_frame = moonCorner_list[frame]
+    cr_frame = earthRotation_list[frame]
+    moon_frame = cm_list[frame]
+    moonCorner_frame = moonRotation_list[frame]
 
 
 
     x = np.stack([cr_frame[0][0],cr_frame[1][0],cr_frame[2][0],cr_frame[3][0],cr_frame[0][0]])
-    y = np.stack([cr_list[frame][0][1],cr_frame[1][1],cr_frame[2][1],cr_frame[3][1],cr_frame[0][1]])
+    y = np.stack([earthRotation_list[frame][0][1],cr_frame[1][1],cr_frame[2][1],cr_frame[3][1],cr_frame[0][1]])
 
     x_moon = np.stack([moonCorner_frame[0][0],moonCorner_frame[1][0],moonCorner_frame[2][0],moonCorner_frame[3][0],moonCorner_frame[0][0]])
     y_moon = np.stack([moonCorner_frame[0][1],moonCorner_frame[1][1],moonCorner_frame[2][1],moonCorner_frame[3][1],moonCorner_frame[0][1]])
@@ -111,6 +113,6 @@ def update(frame):
     return earth_dot, earth_plot,moon_dot,moon_plot,
 
 
-ani = FuncAnimation(fig, update, frames=n, init_func=init, interval=10)
+ani = FuncAnimation(fig, update, frames=n, init_func=init, interval=50)
 fig.show()
 plt.show()
