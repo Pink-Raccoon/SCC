@@ -19,8 +19,8 @@ n_days =  365
 n = n_days*n_per_day                           # number of iterations
 earth_around_sun =  2*np.pi / n_days / n_per_day  # angular velocity earth - sun
 earth_around_axis = 1
-moon_around_earth = 2 * np.pi /27.3/ (1/27.3)
-moon_around_axis = 2 * np.pi /27.3/ (1/27.3)
+moon_around_earth = 2 * np.pi / 27.3
+moon_around_axis = 27.3
 
 side_len = 1.0
 side_moon = 0.6
