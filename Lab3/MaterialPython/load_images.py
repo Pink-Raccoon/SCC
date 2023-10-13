@@ -35,33 +35,33 @@ def medfilt2(img, size):
 def getImages():
     img = {}
 
-    Sunflowers = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics', 'sunflowers.png'))
-    #Sunflowers = plt.imread('Pics\\sunflowers.png')
-    img['Sunflowers'] = rgb2gray(Sunflowers)
+    # Sunflowers = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics', 'sunflowers.png'))
+    # #Sunflowers = plt.imread('Pics\\sunflowers.png')
+    # img['Sunflowers'] = rgb2gray(Sunflowers)
 
-    Monroe = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','monroe.png'))
-    #Monroe = plt.imread('Pics\\monroe.png')
-    img['Monroe'] = rgb2gray(Monroe)
+    # Monroe = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','monroe.png'))
+    # #Monroe = plt.imread('Pics\\monroe.png')
+    # img['Monroe'] = rgb2gray(Monroe)
 
-    Airplane = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','airplane.png'))
-    #Airplane = plt.imread('Pics\\airplane.png')
-    img['Airplane'] = rgb2gray(Airplane)
+    # Airplane = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','airplane.png'))
+    # #Airplane = plt.imread('Pics\\airplane.png')
+    # img['Airplane'] = rgb2gray(Airplane)
 
-    Coins = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','coins.png'))
-    #Coins = plt.imread('Pics\\coins.png')
-    img['Coins'] = rgb2gray(Coins)
+    # Coins = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','coins.png'))
+    # #Coins = plt.imread('Pics\\coins.png')
+    # img['Coins'] = rgb2gray(Coins)
 
-    Testshapes = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','testshapes.png'))
-    #Testshapes = plt.imread('Pics\\testshapes.png')
-    img['Testshapes'] = rgb2gray(Testshapes)
+    # Testshapes = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','testshapes.png'))
+    # #Testshapes = plt.imread('Pics\\testshapes.png')
+    # img['Testshapes'] = rgb2gray(Testshapes)
 
-    #img['Jetski'] = plt.imread('Pics\\jetski.png')
-    Jetski = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','jetski.png'))
-    #img['Jetski'] = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','jetski.png'))
+    Jetski = plt.imread('Lab3\\MaterialPython\\Pics\\jetski.png')
+    # Jetski = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','jetski.png'))
+    # #img['Jetski'] = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','jetski.png'))
     img['Jetski'] = rgb2gray(Jetski)
   
-    Pinkflower = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','pinkflower.png'))
-    #img['Pinkflower'] = plt.imread('Pics\\pinkflower.png')
+    #Pinkflower = plt.imread(os.path.join(os.getcwd(), 'MaterialPython', 'Pics','pinkflower.png'))
+    Pinkflower = plt.imread('Lab3\\MaterialPython\\Pics\\pinkflower.png')
     img['Pinkflower'] = rgb2gray(Pinkflower)
 
     return img
