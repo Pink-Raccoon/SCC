@@ -17,7 +17,7 @@ n_per_day =  1
 n_days =  365
 n = n_days*n_per_day                            # number of iterations
 phi_rotate =  2*np.pi / n_days / n_per_day      # angular velocity earth - sun
-earth_rotate = 1
+earth_rotate = 0.1
 
 side_len = 0.8
 tHori = np.array([side_len/2, 0])
@@ -38,12 +38,18 @@ s4 = np.append(s4,1)
 ce_list = [ce]
 cr_list = []
 cr_list.append(np.stack([s1,s2,s3,s4]))
-print("cr_list {}".format(cr_list))
+# print("cr_list {}".format(cr_list))
+# for i in range(n):
+#     ce = am.rotate_around_point(ce,sun[0],sun[1],phi_rotate)
+#     cr = am.rotate_tuple(cr_list[i][0:], ce[0],ce[1], earth_rotate)     
+#     ce_list.append(ce)
+#     cr_list.append(cr)             # generate coordinates
 for i in range(n):
     ce = am.rotate_around_point(ce,sun[0],sun[1],phi_rotate)
-    cr = am.rotate_tuple(cr_list[i][0:], ce[0],ce[1], earth_rotate)     
+    cr_ = am.rotate_tuple(cr_list[i][0:],sun[0],sun[1],phi_rotate) #square points around sun
+    cr = am.rotate_tuple(cr_,ce[0],ce[1],earth_rotate) #rotating square around earth dot
     ce_list.append(ce)
-    cr_list.append(cr)             # generate coordinates
+    cr_list.append(cr) 
 
 # Initialize the figure and axis
 fig, ax = plt.subplots()

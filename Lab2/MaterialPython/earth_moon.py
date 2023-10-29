@@ -58,18 +58,26 @@ earthRotation_list.append(np.stack([s1,s2,s3,s4]))
 cm_list = [cm]
 moonRotation_list = []
 moonRotation_list.append(np.stack([c1,c2,c3,c4]))
+earth_and_moon_List = []
 
 
 for i in range(n):    
     ce = am.rotate_around_point(ce,sun[0],sun[1],earth_around_sun)
-    earthRotation = am.rotate_tuple(earthRotation_list[i][0:], ce[0],ce[1], earth_around_axis)  
-    cm = am.rotate_around_point(cm,ce[0],ce[1], -moon_around_earth)  
-    moonRotation = am.rotate_tuple(moonRotation_list[i][0:],cm[0],cm[1],27.3) 
-    ce_list.append(ce)
+    earthRotation_ = am.rotate_tuple(earthRotation_list[i][0:], sun[0],sun[1], earth_around_sun)  
+    earthRotation = am.rotate_tuple(earthRotation_,ce[0],ce[1], earth_around_axis)
 
+    cm_ = am.rotate_around_point(cm,ce[0],ce[1], moon_around_earth)  
+    cm = am.rotate_around_point(cm_,sun[0],sun[1],earth_around_sun)
+    moonRotation_ = am.rotate_tuple(moonRotation_list[i][0:],ce[0],ce[1],moon_around_earth) 
+    moonRotation = am.rotate_tuple(moonRotation_,cm[0],cm[1],-moon_around_earth)
+    moonRotationSun = am.rotate_tuple(moonRotation,sun[0],sun[1],earth_around_sun)
+
+    
+
+    ce_list.append(ce)
     earthRotation_list.append(np.stack(earthRotation) )    
     cm_list.append(cm) 
-    moonRotation_list.append(np.stack(moonRotation) )
+    moonRotation_list.append(np.stack(moonRotationSun) )
      # generate coordinates
 
 # Initialize the figure and axis
