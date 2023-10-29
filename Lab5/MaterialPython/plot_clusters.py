@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 from sys import exit
 
 
-def plot_clusters(X, alpha,n):
+def plot_clusters(X, alpha):
     # input:
     # alpha[i] denotes the cluster of point data[i, :]
     # the number k of clusters must be between 2 and 5
@@ -21,7 +21,7 @@ def plot_clusters(X, alpha,n):
     if not (k >= 1 and k <= 4):
         exit('Error (plot_clusters): wrong number of clusters')
 
-    plt.figure(n)
+    plt.figure()
     plt.clf()
 
     P1 = X[alpha == 0, :]
@@ -38,5 +38,3 @@ def plot_clusters(X, alpha,n):
         plt.plot(P4[:, 0], P4[:, 1], 'm.')
     if (k >= 4):
         plt.plot(P5[:, 0], P5[:, 1], 'y.')
-    plt.figure(n)
-    plt.show()

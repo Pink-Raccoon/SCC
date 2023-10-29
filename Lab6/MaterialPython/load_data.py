@@ -54,7 +54,8 @@ def load_data():
     dictData['I'] = matRead('data/', 'I')
     dictData['skindata'] = matRead('data/', 'skindata')
     dictData['nonskindata'] = matRead('data/', 'nonskindata')
-    dictData['test']['test'] = plt.imread('data/test.jpg')/255.0
+    # dictData['test']['test'] = plt.imread('data/test.jpg')/255.0
+    dictData['test'] = plt.imread('data/test.jpg')/255.0
     dictData['maskTest'] = np.round(rgb2gray(plt.imread('data/maskTest.png')))
     return dictData
 

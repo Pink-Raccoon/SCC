@@ -6,6 +6,7 @@ Created on Thu Oct  7 14:27:31 2021
 """
 
 import numpy as np
+from sklearn.metrics import confusion_matrix
 
 
 # supplied by the lecturer
@@ -46,5 +47,15 @@ def vector2grayImage(M,dims):
     return img
 
 def error_rate(mask, result):
-    r,s = result.shape
-    return r # this is not correct do confusion matrix maskdata and our stuff
+    mask = mask.flatten()
+    result = result.flatten()
+    
+    confusion = confusion_matrix(mask,result)
+    TP = confusion[1,1]
+    TN = confusion[0,0]
+    FP = confusion[0,1]
+    FN = confusion[1,0]
+    total = TP + TN + FP + FN
+    print("error rate for image = {} \n".format((FN+FP)/total))
+    print("false positive rate for image = {} \n".format(FP/(FP+TN)))
+    print("false negative rate for image = {} \n".format(FN/(FN+TP)))

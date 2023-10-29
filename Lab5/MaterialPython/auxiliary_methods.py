@@ -1,10 +1,23 @@
 import numpy as np
-import load_data as ld
 
-def V(I):
-    row,column = np.shape(I)
-    print(np.shape(I))
-    np.reshape(I,(6,1))
+
+
+
+def grayscaleImage2Vector(I):
+    # Get the dimensions of the input image
+    dims = I.shape
+
+    # Reshape the image to a 1D vector by concatenating its rows
+    vector = I.flatten()
+
+    return vector, dims
+
+
+def vector2GrayscaleImage(V, dims):
+    r, s = dims  # Extract the dimensions from the 'dims' input
+
+    # Reshape the vector into an r x s matrix
+    I = V.reshape(r, s)
+
     return I
-Test = np.array([[1,2,3],[4,5,6]])
-print(V(Test))
+
